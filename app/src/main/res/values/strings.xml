@@ -4,4 +4,6 @@
     <string name="turn_on_internet">Turn on Internet Connection.</string>
     <string name="mobile_data">Mobile data</string>
     <string name="Wifi">Wifi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
