@@ -10,3 +10,4 @@ const val HTTP_READ_TIMEOUT = 45L
 const val HTTP_WRITE_TIMEOUT = 45L
 
 const val ARG_CUISINE_INFO = "cuisineInfo"
+const val ARG_CART_ITEMS = "cartItems"

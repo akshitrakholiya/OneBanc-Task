@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.akshit.onebanc.R
 import com.akshit.onebanc.databinding.FragmentCuisineInfoBinding
 import com.akshit.onebanc.models.CuisinesItem
 import com.akshit.onebanc.models.ItemsItem
+import com.akshit.onebanc.utilities.ARG_CART_ITEMS
 import com.akshit.onebanc.utilities.ARG_CUISINE_INFO
 import com.akshit.onebanc.view.adapters.RecipeItemsAdapter
 import com.akshit.onebanc.view.interfaces.RecipeItemQtyListeners
@@ -52,7 +54,9 @@ class CuisineInfoFragment : Fragment(), RecipeItemQtyListeners {
             if (finalCartItems.isEmpty()){
                 Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(requireContext(), "Items in cart ${finalCartItems.map { it.name }}", Toast.LENGTH_SHORT).show()
+                val bundle = Bundle()
+                bundle.putParcelableArrayList(ARG_CART_ITEMS, ArrayList(finalCartItems))
+                findNavController().navigate(R.id.action_cuisineInfoFragment_to_placeOrderFragment, bundle)
             }
         }
     }
