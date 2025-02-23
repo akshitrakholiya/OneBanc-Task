@@ -44,6 +44,19 @@
             />
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivShopping"
+            android:src="@drawable/ic_shopping_cart"
+            android:elevation="12dp"
+            android:padding="8dp"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivBackBtn"
+            app:layout_constraintBottom_toBottomOf="@id/ivBackBtn"
+            />
+
+        <ImageView
            android:layout_width="0dp"
            android:layout_height="0dp"
            android:id="@+id/ivCuisineImg"
@@ -63,6 +76,20 @@
             app:layout_constraintEnd_toEndOf="@id/ivCuisineImg"
             app:layout_constraintTop_toTopOf="@id/ivCuisineImg"
             app:layout_constraintBottom_toBottomOf="@id/ivCuisineImg"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/rvRecipeList"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/item_recipe_cardview"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivCuisineImg"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
 

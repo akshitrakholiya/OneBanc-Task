@@ -72,5 +72,7 @@ data class ItemsItem(
 	val rating: String? = null,
 
 	@field:SerializedName("id")
-	val id: String? = null
+	val id: String? = null,
+
+	var quantity:Int = 0
 ): Parcelable

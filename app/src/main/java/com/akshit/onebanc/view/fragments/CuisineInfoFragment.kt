@@ -7,22 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.akshit.onebanc.R
+import androidx.navigation.fragment.findNavController
 import com.akshit.onebanc.databinding.FragmentCuisineInfoBinding
-import com.akshit.onebanc.infra.utils.ConnectivityManager
 import com.akshit.onebanc.models.CuisinesItem
+import com.akshit.onebanc.models.ItemsItem
 import com.akshit.onebanc.utilities.ARG_CUISINE_INFO
+import com.akshit.onebanc.view.adapters.RecipeItemsAdapter
+import com.akshit.onebanc.view.interfaces.RecipeItemQtyListeners
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class CuisineInfoFragment : Fragment() {
+class CuisineInfoFragment : Fragment(), RecipeItemQtyListeners {
 
     private lateinit var binding: FragmentCuisineInfoBinding
     private var cuisineInfo: CuisinesItem? = null
 
-    @Inject
-    lateinit var connectivityManager: ConnectivityManager
+    private lateinit var recipeItemsAdapter: RecipeItemsAdapter
+    private var finalCartItems:MutableSet<ItemsItem> = mutableSetOf()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,11 +38,44 @@ class CuisineInfoFragment : Fragment() {
     ): View? {
         binding = FragmentCuisineInfoBinding.inflate(inflater, container, false)
         binding.cuisineInfo = cuisineInfo
+        setupRecipeRecyclerView()
+        setupViewClickListeners()
         return binding.root
+    }
+
+    private fun setupViewClickListeners() {
+        binding.ivBackBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.ivShopping.setOnClickListener {
+            if (finalCartItems.isEmpty()){
+                Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(requireContext(), "Items in cart ${finalCartItems.map { it.name }}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun setupRecipeRecyclerView() {
+        recipeItemsAdapter = RecipeItemsAdapter(this)
+        binding.rvRecipeList.apply {
+            adapter = recipeItemsAdapter
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val sortedItems = cuisineInfo?.items?.sortedByDescending { it?.rating?.toDoubleOrNull() }
+        sortedItems?.let { recipeItemsAdapter.addNewRecipes(it) }
     }
+
+    override fun addToCart(recipeItem: ItemsItem) {
+        finalCartItems.add(recipeItem)
+    }
+
+    override fun removeFromCart(recipeItem: ItemsItem) {
+        finalCartItems.remove(recipeItem)
+    }
+
 }
