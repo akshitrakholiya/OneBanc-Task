@@ -1,7 +1,10 @@
 package com.akshit.onebanc.view.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.akshit.onebanc.databinding.ItemCuisineCardViewBinding
 import com.akshit.onebanc.models.CuisinesItem
@@ -45,5 +48,21 @@ class CuisineItemsAdapter(
     fun clearCuisineItemList() {
         cuisineItems.clear()
         notifyDataSetChanged()
+    }
+
+    companion object {
+        // Extension function to set up the RecyclerView
+        fun RecyclerView.setupSmoothScroll(context: Context) {
+            // Set up LinearLayoutManager
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            // Add LinearSnapHelper for snapping to items
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+
+
+            // Optional: Add smooth scrolling behavior
+            setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING)
+        }
     }
 }

@@ -2,25 +2,26 @@ package com.akshit.onebanc.view.fragments
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.akshit.onebanc.databinding.FragmentDashboardBinding
 import com.akshit.onebanc.infra.CoreApplication
 import com.akshit.onebanc.infra.network.NetworkResult
 import com.akshit.onebanc.infra.utils.ConnectivityManager
 import com.akshit.onebanc.models.CuisineItemsRequest
+import com.akshit.onebanc.models.CuisineItemsResponse
 import com.akshit.onebanc.models.CuisinesItem
+import com.akshit.onebanc.utilities.PaginationListener
 import com.akshit.onebanc.utilities.ProgressDialog
 import com.akshit.onebanc.utilities.ResponseCode
 import com.akshit.onebanc.view.adapters.CuisineItemsAdapter
+import com.akshit.onebanc.view.adapters.CuisineItemsAdapter.Companion.setupSmoothScroll
 import com.akshit.onebanc.viewmodels.HomeViewModel
-import com.google.android.material.circularreveal.CircularRevealLinearLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,6 +39,10 @@ class DashboardFragment : Fragment() {
 
     private lateinit var cuisineItemsAdapter: CuisineItemsAdapter
 
+    private var isLoading = false
+    private var maxPageSize = 1
+    private var isLastItem = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +56,7 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addCuisineItemListScrollListener()
         callCuisinesWithItemsAPI()
     }
 
@@ -61,6 +67,7 @@ class DashboardFragment : Fragment() {
         binding.rvCuisine.apply {
             adapter = cuisineItemsAdapter
         }
+        binding.rvCuisine.setupSmoothScroll(requireContext())
     }
 
     private inline fun addCuisineData(newCuisineItemList: List<CuisinesItem?>){
@@ -77,6 +84,9 @@ class DashboardFragment : Fragment() {
                 is NetworkResult.Success -> {
                     dialog.dismiss()
                     if (ResponseCode.valid(response.data?.responseCode,response.data?.responseMessage)){
+
+                        paginationRelatedValidation(response.data)
+
                         response.data?.cuisines?.let { addCuisineData(it) }
                     }
                 }
@@ -86,9 +96,43 @@ class DashboardFragment : Fragment() {
                 }
                 is NetworkResult.Loading -> {
                     dialog.show()
+                    isLoading = true
                 }
             }
         }
+    }
+
+
+    private fun paginationRelatedValidation(_response: CuisineItemsResponse?) {
+        maxPageSize = _response?.totalPages ?: -1
+        if ((_response?.page ?: 0) >= maxPageSize) {
+            isLastItem = true
+        }
+
+        _response?.cuisines?.let {
+            addCuisineData(it)
+        }
+        isLoading = false
+    }
+
+    private fun addCuisineItemListScrollListener(){
+        binding.rvCuisine.addOnScrollListener(object : PaginationListener(binding.rvCuisine.layoutManager as LinearLayoutManager){
+            override fun loadMoreItems() {
+                if(!isLastItem){
+                    currPage++
+                    callCuisinesWithItemsAPI()
+                }
+            }
+
+            override fun isLastPage(): Boolean {
+                return isLastItem
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+        })
     }
 
     companion object {
