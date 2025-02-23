@@ -8,3 +8,5 @@ const val X_FORWARD_PROXY_ACTION = "X-Forward-Proxy-Action"
 const val HTTP_CONNECT_TIMEOUT = 45L
 const val HTTP_READ_TIMEOUT = 45L
 const val HTTP_WRITE_TIMEOUT = 45L
+
+const val ARG_CUISINE_INFO = "cuisineInfo"

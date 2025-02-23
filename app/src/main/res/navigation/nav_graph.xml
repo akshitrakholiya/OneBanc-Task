@@ -7,6 +7,13 @@
 
     <fragment android:id="@+id/dashboardFragment"
         android:name="com.akshit.onebanc.view.fragments.DashboardFragment">
+        <action
+            android:id="@+id/action_dashboardFragment_to_cuisineInfoFragment"
+            app:destination="@id/cuisineInfoFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/cuisineInfoFragment"
+        android:name="com.akshit.onebanc.view.fragments.CuisineInfoFragment">
 
     </fragment>
 

@@ -1,6 +1,8 @@
 package com.akshit.onebanc.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class CuisineItemsResponse(
 
@@ -38,6 +40,7 @@ data class CuisineItemsResponse(
 	val timestamp: String? = null
 )
 
+@Parcelize
 data class CuisinesItem(
 
 	@field:SerializedName("cuisine_name")
@@ -51,8 +54,9 @@ data class CuisinesItem(
 
 	@field:SerializedName("items")
 	val items: List<ItemsItem?>? = null
-)
+): Parcelable
 
+@Parcelize
 data class ItemsItem(
 
 	@field:SerializedName("image_url")
@@ -69,4 +73,4 @@ data class ItemsItem(
 
 	@field:SerializedName("id")
 	val id: String? = null
-)
+): Parcelable

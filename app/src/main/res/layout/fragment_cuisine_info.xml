@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="cuisineInfo"
+            type="com.akshit.onebanc.models.CuisinesItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragments.CuisineInfoFragment">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivBackBtn"
+            android:src="@drawable/ic_arrow_back"
+            android:elevation="12dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCuisineName"
+            android:text="@{cuisineInfo.cuisineName}"
+            tools:text="Cuisine Name"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:elevation="9dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/ivBackBtn"
+            app:layout_constraintTop_toTopOf="@id/ivBackBtn"
+            app:layout_constraintBottom_toBottomOf="@id/ivBackBtn"
+            />
+
+        <ImageView
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:id="@+id/ivCuisineImg"
+           app:load_image="@{cuisineInfo.cuisineImageUrl}"
+           app:layout_constraintDimensionRatio="H,3:2"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/ivGradientOverlay"
+            android:src="@drawable/overlay_gradient"
+            app:layout_constraintStart_toStartOf="@id/ivCuisineImg"
+            app:layout_constraintEnd_toEndOf="@id/ivCuisineImg"
+            app:layout_constraintTop_toTopOf="@id/ivCuisineImg"
+            app:layout_constraintBottom_toBottomOf="@id/ivCuisineImg"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

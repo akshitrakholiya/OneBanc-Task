@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.akshit.onebanc.R
 import com.akshit.onebanc.databinding.FragmentDashboardBinding
 import com.akshit.onebanc.infra.CoreApplication
 import com.akshit.onebanc.infra.network.NetworkResult
@@ -16,6 +18,7 @@ import com.akshit.onebanc.infra.utils.ConnectivityManager
 import com.akshit.onebanc.models.CuisineItemsRequest
 import com.akshit.onebanc.models.CuisineItemsResponse
 import com.akshit.onebanc.models.CuisinesItem
+import com.akshit.onebanc.utilities.ARG_CUISINE_INFO
 import com.akshit.onebanc.utilities.PaginationListener
 import com.akshit.onebanc.utilities.ProgressDialog
 import com.akshit.onebanc.utilities.ResponseCode
@@ -57,12 +60,22 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addCuisineItemListScrollListener()
+        resetPaginationData()
         callCuisinesWithItemsAPI()
     }
 
+    private fun resetPaginationData() {
+        currPage = 1
+        isLoading = false
+        maxPageSize = 1
+        isLastItem = false
+    }
+
     private fun setupCuisineRecyclerView(){
-        cuisineItemsAdapter = CuisineItemsAdapter{
-            Toast.makeText(requireContext(),it?.cuisineName,Toast.LENGTH_SHORT).show()
+        cuisineItemsAdapter = CuisineItemsAdapter{ cuisineInfo->
+            val bundle = Bundle()
+            bundle.putParcelable(ARG_CUISINE_INFO,cuisineInfo)
+            findNavController().navigate(R.id.action_dashboardFragment_to_cuisineInfoFragment,bundle)
         }
         binding.rvCuisine.apply {
             adapter = cuisineItemsAdapter
