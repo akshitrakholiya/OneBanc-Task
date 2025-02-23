@@ -1,6 +1,7 @@
 package com.akshit.onebanc.infra.di.module
 
 import android.util.Log
+import com.akshit.onebanc.BuildConfig
 import com.akshit.onebanc.infra.network.WebApiInterface
 import com.akshit.onebanc.infra.utils.ConnectivityManager
 import com.akshit.onebanc.utilities.*
@@ -95,9 +96,13 @@ class NetworkModule {
             sb.append(CONTENT_TYPE_KEY).append(" : ").append(
                 CONTENT_TYPE_VALUE_JSON
             ).append("\n")
+            sb.append(X_PARTNER_API_KEY).append(" : ").append(
+                BuildConfig.API_KEY
+            ).append("\n")
 
             request = request.newBuilder()
                 .addHeader(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE_JSON)
+                .addHeader(X_PARTNER_API_KEY, BuildConfig.API_KEY)
                 .build()
 
             sb.append("****Headers Finish****")

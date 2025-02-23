@@ -16,6 +16,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = "${project.findProperty("API_KEY")}"
+        )
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +43,9 @@ android {
     }
     dataBinding{
         enable = true
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
