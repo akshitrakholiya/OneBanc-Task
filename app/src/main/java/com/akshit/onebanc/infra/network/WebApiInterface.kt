@@ -2,6 +2,8 @@ package com.akshit.onebanc.infra.network
 
 import com.akshit.onebanc.models.CuisineItemsRequest
 import com.akshit.onebanc.models.CuisineItemsResponse
+import com.akshit.onebanc.models.PlaceOrderRequest
+import com.akshit.onebanc.models.PlaceOrderResponse
 import com.akshit.onebanc.models.UserInfoRequest
 import com.akshit.onebanc.models.UserInfoResponse
 import com.akshit.onebanc.utilities.X_FORWARD_PROXY_ACTION
@@ -15,6 +17,9 @@ interface WebApiInterface {
 
     @POST()
     suspend fun getCuisinesWithItems(@Body cuisineItemsRequest: CuisineItemsRequest, @Header(X_FORWARD_PROXY_ACTION) proxyAction: String,@Url url: String): Response<CuisineItemsResponse>
+
+    @POST()
+    suspend fun placeOrder(@Body placeOrderRequest: PlaceOrderRequest, @Header(X_FORWARD_PROXY_ACTION) proxyAction: String,@Url url: String): Response<PlaceOrderResponse>
 
     companion object {
 

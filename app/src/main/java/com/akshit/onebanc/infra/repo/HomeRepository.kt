@@ -5,6 +5,8 @@ import com.akshit.onebanc.infra.network.NetworkResult
 import com.akshit.onebanc.infra.network.RemoteDataSource
 import com.akshit.onebanc.models.CuisineItemsRequest
 import com.akshit.onebanc.models.CuisineItemsResponse
+import com.akshit.onebanc.models.PlaceOrderRequest
+import com.akshit.onebanc.models.PlaceOrderResponse
 import com.akshit.onebanc.models.UserInfoRequest
 import com.akshit.onebanc.models.UserInfoResponse
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -28,6 +30,12 @@ class HomeRepository @Inject constructor(
     suspend fun getCuisinesWithItems(cuisineItemsRequest: CuisineItemsRequest): Flow<NetworkResult<CuisineItemsResponse>> {
         return flow<NetworkResult<CuisineItemsResponse>> {
             emit(safeApiCall { remoteDataSource.getCuisinesWithItems(cuisineItemsRequest) })
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun placeOrder(placeOrderRequest: PlaceOrderRequest): Flow<NetworkResult<PlaceOrderResponse>> {
+        return flow<NetworkResult<PlaceOrderResponse>> {
+            emit(safeApiCall { remoteDataSource.placeOrder(placeOrderRequest) })
         }.flowOn(Dispatchers.IO)
     }
 
