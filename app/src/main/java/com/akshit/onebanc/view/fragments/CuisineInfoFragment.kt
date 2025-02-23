@@ -16,6 +16,7 @@ import com.akshit.onebanc.utilities.ARG_CART_ITEMS
 import com.akshit.onebanc.utilities.ARG_CUISINE_INFO
 import com.akshit.onebanc.view.adapters.RecipeItemsAdapter
 import com.akshit.onebanc.view.interfaces.RecipeItemQtyListeners
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +53,7 @@ class CuisineInfoFragment : Fragment(), RecipeItemQtyListeners {
 
         binding.ivShopping.setOnClickListener {
             if (finalCartItems.isEmpty()){
-                Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root,"Cart is empty", Snackbar.LENGTH_SHORT).show()
             }else{
                 val bundle = Bundle()
                 bundle.putParcelableArrayList(ARG_CART_ITEMS, ArrayList(finalCartItems))

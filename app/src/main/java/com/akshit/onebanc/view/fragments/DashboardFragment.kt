@@ -25,6 +25,7 @@ import com.akshit.onebanc.utilities.ResponseCode
 import com.akshit.onebanc.view.adapters.CuisineItemsAdapter
 import com.akshit.onebanc.view.adapters.CuisineItemsAdapter.Companion.setupSmoothScroll
 import com.akshit.onebanc.viewmodels.HomeViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -104,7 +105,7 @@ class DashboardFragment : Fragment() {
                     }
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(context, response.message.toString(), Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root,response.message.toString(), Snackbar.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
                 is NetworkResult.Loading -> {
