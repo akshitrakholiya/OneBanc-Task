@@ -1,6 +1,7 @@
 package com.akshit.onebanc.view.fragments
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,7 +32,12 @@ class CuisineInfoFragment : Fragment(), RecipeItemQtyListeners {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.let {
-            cuisineInfo = it.getParcelable(ARG_CUISINE_INFO, CuisinesItem::class.java)
+            cuisineInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                 it.getParcelable(ARG_CUISINE_INFO, CuisinesItem::class.java)
+            }else{
+                @Suppress("DEPRECATION")
+                it.getParcelable(ARG_CUISINE_INFO) as? CuisinesItem
+            }
         }
     }
 
